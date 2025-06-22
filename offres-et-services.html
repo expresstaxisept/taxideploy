@@ -154,10 +154,26 @@
 </script>
 
 
+<script>
+  window.addEventListener("scroll", function () {
+    const logo = document.getElementById("logo");
+    if (window.scrollY > 300) {
+      logo.src = "assets/images/TAXI DARK.png";
+    } else {
+      logo.src = "assets/images/TAXI.png";
+    }
+  });
+</script>
+
+
 
   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-      <a class="navbar-brand" href="index.html"><img src="assets/images/R%c3%a9servation-taxi-Paris.webp" alt="Logo" loading="lazy"></a>
+      
+<a href="index.html">
+  <img id="logo" src="assets/images/TAXI.png" alt="Taxi Logo" style="height: 60px;">
+</a>
+
       <div class="d-flex container-btn">
 
         
