@@ -182,41 +182,157 @@
         
         
 
+<style>
+  /* Base dropdown styling */
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .custom-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    background-color: #20242c;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #f6a403;
+    margin-top: -6px; /* move button up */
+  }
+
+  .custom-dropdown-button img {
+    width: 24px;
+    height: 16px;
+  }
+
+  .custom-dropdown-list {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: #20242c;
+    border: 1px solid #f6a403;
+    border-radius: 4px;
+    margin-top: 5px;
+    width: 100%;
+  }
+
+  .custom-dropdown-list a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    padding: 8px;
+    background-color: transparent;
+  }
+
+  .custom-dropdown-list a:hover {
+    background-color: #f6a403;
+    color: #20242c;
+  }
+
+  .custom-dropdown-list a div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .custom-dropdown-list a img {
+    width: 24px;
+    height: 16px;
+  }
+
+  /* Mobile styling */
+@media (max-width: 768px) {
+  #dropdown-btn-text {
+    display: none;
+  }
+
+  .custom-dropdown-button {
+    padding: 8px;
+    justify-content: center;
+  }
+
+  .custom-dropdown-list {
+    width: auto;
+    text-align: center;
+    left: auto;
+    right: 0;
+    transform: translateX(-20%);
+  }
+
+  .custom-dropdown-list a {
+    padding: 6px;
+  }
+
+  .custom-dropdown-list a div {
+    justify-content: center;
+  }
+
+  .custom-dropdown-list a img {
+    display: inline-block;
+    margin-right: 8px;
+  }
+}
+
+</style>
+
 <div class="custom-dropdown mt-3">
   <div class="custom-dropdown-button" onclick="toggleDropdown()">
-    <img id="dropdown-btn-img" src="https://flagcdn.com/fr.svg" alt="Flag">
+    <img id="dropdown-btn-img" src="https://flagcdn.com/fr.svg" alt="Flag" />
     <span id="dropdown-btn-text">French</span>
   </div>
   <div class="custom-dropdown-list" id="dropdown-list">
     <a href="aide/Chateau de Versailles.html" onclick="updateDropdown('https://flagcdn.com/fr.svg', 'French')">
-      <div><img src="https://flagcdn.com/fr.svg" alt="FR"> French</div>
+      <div><img src="https://flagcdn.com/fr.svg" alt="FR" /> French</div>
     </a>
     <a href="aide/Saudi Arabia.html" onclick="updateDropdown('https://flagcdn.com/sa.svg', 'Saudi Arabia')">
-      <div><img src="https://flagcdn.com/sa.svg" alt="SA"> Saudi Arabia</div>
+      <div><img src="https://flagcdn.com/sa.svg" alt="SA" /> Saudi Arabia</div>
     </a>
     <a href="aide/China.html" onclick="updateDropdown('https://flagcdn.com/cn.svg', 'China')">
-      <div><img src="https://flagcdn.com/cn.svg" alt="CN"> China</div>
+      <div><img src="https://flagcdn.com/cn.svg" alt="CN" /> China</div>
     </a>
     <a href="aide/Netherlands.html" onclick="updateDropdown('https://flagcdn.com/nl.svg', 'Netherlands')">
-      <div><img src="https://flagcdn.com/nl.svg" alt="NL"> Netherlands</div>
+      <div><img src="https://flagcdn.com/nl.svg" alt="NL" /> Netherlands</div>
     </a>
     <a href="aide/United Kingdom.html" onclick="updateDropdown('https://flagcdn.com/gb.svg', 'United Kingdom')">
-      <div><img src="https://flagcdn.com/gb.svg" alt="UK"> United Kingdom</div>
+      <div><img src="https://flagcdn.com/gb.svg" alt="UK" /> United Kingdom</div>
     </a>
     <a href="aide/Germany.html" onclick="updateDropdown('https://flagcdn.com/de.svg', 'Germany')">
-      <div><img src="https://flagcdn.com/de.svg" alt="DE"> Germany</div>
+      <div><img src="https://flagcdn.com/de.svg" alt="DE" /> Germany</div>
     </a>
     <a href="aide/Italy.html" onclick="updateDropdown('https://flagcdn.com/it.svg', 'Italy')">
-      <div><img src="https://flagcdn.com/it.svg" alt="IT"> Italy</div>
+      <div><img src="https://flagcdn.com/it.svg" alt="IT" /> Italy</div>
     </a>
     <a href="aide/Portugal.html" onclick="updateDropdown('https://flagcdn.com/pt.svg', 'Portugal')">
-      <div><img src="https://flagcdn.com/pt.svg" alt="PT"> Portugal</div>
+      <div><img src="https://flagcdn.com/pt.svg" alt="PT" /> Portugal</div>
     </a>
     <a href="aide/Spain.html" onclick="updateDropdown('https://flagcdn.com/es.svg', 'Spain')">
-      <div><img src="https://flagcdn.com/es.svg" alt="ES"> Spain</div>
+      <div><img src="https://flagcdn.com/es.svg" alt="ES" /> Spain</div>
     </a>
   </div>
 </div>
+
+<script>
+  function toggleDropdown() {
+    const list = document.getElementById("dropdown-list");
+    list.style.display = list.style.display === "block" ? "none" : "block";
+  }
+
+  function updateDropdown(flagSrc, language) {
+    document.getElementById("dropdown-btn-img").src = flagSrc;
+    document.getElementById("dropdown-btn-text").textContent = language;
+    toggleDropdown();
+  }
+
+  // Close dropdown if clicked outside
+  document.addEventListener("click", function(event) {
+    const dropdown = document.querySelector(".custom-dropdown");
+    if (!dropdown.contains(event.target)) {
+      document.getElementById("dropdown-list").style.display = "none";
+    }
+  });
+</script>
 
 
 
