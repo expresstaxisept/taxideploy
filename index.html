@@ -258,19 +258,18 @@
     display: inline-block;
   }
 
-.custom-dropdown-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  padding: 8px 12px;
-  background-color: #20242c;
-  color: white;
-  border-radius: 5px;
-  border: 1px solid #f6a403;
-  margin-top: -6px; /* move button up */
-  
-}
+  .custom-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    background-color: #20242c;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #f6a403;
+    margin-top: -6px; /* move button up */
+  }
 
   .custom-dropdown-button img {
     width: 24px;
@@ -281,8 +280,8 @@
     display: none;
     position: absolute;
     z-index: 1000;
-    background-color: #20242c; /* dark gray background */
-    border: 1px solid #f6a403; /* amber border for list */
+    background-color: #20242c;
+    border: 1px solid #f6a403;
     border-radius: 4px;
     margin-top: 5px;
     width: 100%;
@@ -290,15 +289,15 @@
 
   .custom-dropdown-list a {
     text-decoration: none;
-    color: white; /* changed to white */
+    color: white;
     display: block;
     padding: 8px;
     background-color: transparent;
   }
 
   .custom-dropdown-list a:hover {
-    background-color: #f6a403; /* amber background on hover */
-    color: #20242c; /* dark text on hover */
+    background-color: #f6a403;
+    color: #20242c;
   }
 
   .custom-dropdown-list a div {
@@ -312,10 +311,9 @@
     height: 16px;
   }
 
-  /* Responsive: Mobile only shows flags */
+  /* Mobile styling */
   @media (max-width: 768px) {
-    #dropdown-btn-text,
-    .custom-dropdown-list a div {
+    #dropdown-btn-text {
       display: none;
     }
 
@@ -333,9 +331,13 @@
       padding: 6px;
     }
 
+    .custom-dropdown-list a div {
+      justify-content: center;
+    }
+
     .custom-dropdown-list a img {
-      display: block;
-      margin: auto;
+      display: inline-block;
+      margin-right: 8px;
     }
   }
 </style>
@@ -396,6 +398,7 @@
     }
   });
 </script>
+
 
 
 
