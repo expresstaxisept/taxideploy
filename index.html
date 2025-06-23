@@ -312,20 +312,12 @@
     height: 16px;
   }
 
-@media (max-width: 768px) {
-  .custom-dropdown-button {
-    padding: 6px 8px;      /* smaller padding */
-    font-size: 14px;       /* smaller font size */
-    width: 40px;           /* fixed smaller width */
-    height: 40px;          /* fixed height */
-    justify-content: center;
-  }
-
-  .custom-dropdown-button img {
-    width: 20px;           /* smaller flag */
-    height: 14px;
-  }
-}
+  /* Responsive: Mobile only shows flags */
+  @media (max-width: 768px) {
+    #dropdown-btn-text,
+    .custom-dropdown-list a div {
+      display: none;
+    }
 
     .custom-dropdown-button {
       padding: 8px;
@@ -414,9 +406,10 @@
   onclick="return gtag_report_conversion('tel:+33184807963');" 
   href="tel:+33184807963" 
   class="btn-number" 
-  style="margin-top: 10px; margin-right: 10px; display: inline-block;">
+  style="margin-top: 10px; display: inline-block; padding: 6px 2px;">
   01 84 80 79 63
 </a>
+
 
 
 
@@ -2025,6 +2018,20 @@ Véhicule super propre et chauffeur très poli. Je recommande vivement !
   }
   .swiper-button-prev {
     left: -40px;
+  }
+}
+@media (max-width: 768px) {
+  .custom-dropdown-button {
+    padding: 6px 8px;      /* smaller padding */
+    font-size: 14px;       /* smaller font size */
+    width: 40px;           /* fixed smaller width */
+    height: 50px;          /* fixed height */
+    justify-content: center;
+  }
+
+  .custom-dropdown-button img {
+    width: 20px;           /* smaller flag */
+    height: 14px;
   }
 }
 
