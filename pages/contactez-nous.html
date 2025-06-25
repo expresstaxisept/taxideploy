@@ -38,59 +38,324 @@
     </script>  </head>
   <body>
     
-       <style>
+<style>
+  .side-menu {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: -250px;
+    background-color: #1f2229; /* dark taxi base */
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 80px;
+    border-left: 2px solid #ffc371;
+    box-shadow: -2px 0 10px #00000066;
+  }
+
+  .side-menu a {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #ffd255;
+    display: block;
+    transition: 0.3s;
+    font-weight: 600;
+    border-bottom: 1px solid #2b2e35;
+  }
+
+  .side-menu a:hover {
+    color: #1f2229;
+    background-color: #f6b302;
+  }
+
+  @media screen and (max-height: 450px) {
     .side-menu {
-      height: 100%;
-      width: 250px;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      right: -250px;
-      background-color: #111;
-      overflow-x: hidden;
-      transition: 0.5s;
-      padding-top: 80px;
+      padding-top: 15px;
     }
-
     .side-menu a {
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
-      font-size: 18px;
-      color: white;
-      display: block;
-      transition: 0.3s;
+      font-size: 16px;
     }
+  }
+</style>
 
-    .side-menu a:hover {
-      color: var(--primary);
-      background-color: white;
+<style>
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .custom-dropdown-button {
+    padding: 6px 14px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #3c3f46;
+    background: #2b2e35;
+    color: #ffd255;
+    border-radius: 5px;
+    transition: 0.3s ease;
+  }
+
+  .custom-dropdown-button:hover {
+    background-color: #3c3f46;
+    border-color: #ffc371;
+  }
+
+  .custom-dropdown-button img {
+    width: 20px;
+    height: 14px;
+    margin-right: 8px;
+  }
+
+  .custom-dropdown-list {
+    display: none;
+    position: absolute;
+    background-color: #2b2e35;
+    border: 1px solid #3c3f46;
+    min-width: 200px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 1000;
+    border-radius: 4px;
+  }
+
+  .custom-dropdown-list div {
+    padding: 10px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #ffd255;
+    transition: 0.3s;
+  }
+
+  .custom-dropdown-list div:hover {
+    background-color: #ffc371;
+    color: #1f2229;
+  }
+
+  .custom-dropdown-list img {
+    width: 20px;
+    height: 14px;
+    margin-right: 8px;
+  }
+</style>
+
+
+<script>
+  function toggleDropdown() {
+    const list = document.getElementById("dropdown-list");
+    list.style.display = list.style.display === "block" ? "none" : "block";
+  }
+
+  function selectLanguage(imgSrc, text, url) {
+    document.getElementById("dropdown-btn-img").src = imgSrc;
+    document.getElementById("dropdown-btn-text").innerText = text;
+    document.getElementById("dropdown-list").style.display = "none";
+    window.location.href = url;
+  }
+
+  // Close the dropdown if clicked outside
+  document.addEventListener("click", function(event) {
+    if (!event.target.closest(".custom-dropdown")) {
+      document.getElementById("dropdown-list").style.display = "none";
     }
-
-
-    @media screen and (max-height: 450px) {
-      .side-menu {padding-top: 15px;}
-      .side-menu a {font-size: 18px;}
+  });
+</script>
+<script>
+  window.addEventListener("scroll", function () {
+    const logo = document.getElementById("logo");
+    if (window.scrollY > 300) {
+      logo.src = "../assets/images/TAXI.png";
+    } else {
+      logo.src = "../assets/images/TAXI.png";
     }
+  });
+</script>
 
 
-  </style>
 
   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-      <a class="navbar-brand" href="../index.html"><img src="../assets/images/R%c3%a9servation-taxi-Paris.webp" alt="Logo" loading="lazy"></a>
+      
+<a href="index.html">
+  <img id="logo" src="../assets/images/TAXI.png" alt="Taxi Logo" style="height: 60px;">
+</a>
+
       <div class="d-flex container-btn">
-        <a onclick="return gtag_report_conversion('tel:+33184807963');" href="tel:+33184807963" class="btn-number">01 84 80 79 63</a>
-        <a href="../aides.html" class="btn-nav btn-help">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-            <title>taxi g7 téléphone gratuit</title>
-            <g id="SVGRepo_iconCarrier">
-              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7.92 9.234v.102a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-1.29.998-1.979 2.34-1.979 1.308 0 2.168.689 2.168 1.67 0 .928-.482 1.359-1.686 1.91l-.344.154C11.379 11.54 11 12.21 11 13.381v.119a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-.516.138-.723.55-.912l.345-.155c1.445-.654 2.529-1.514 2.529-3.39v-.103c0-1.978-1.72-3.441-4.164-3.441-2.478 0-4.336 1.428-4.336 3.734zm2.58 7.757c0 .867.659 1.509 1.491 1.509.85 0 1.509-.642 1.509-1.509 0-.867-.659-1.491-1.509-1.491-.832 0-1.491.624-1.491 1.491z"></path>
-            </g>
-          </svg>
-          Aides
-        </a>
+
+        
+
+<style>
+  /* Base dropdown styling */
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .custom-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    background-color: #20242c;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid #f6a403;
+    margin-top: -6px; /* move button up */
+  }
+
+  .custom-dropdown-button img {
+    width: 24px;
+    height: 16px;
+  }
+
+  .custom-dropdown-list {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: #20242c;
+    border: 1px solid #f6a403;
+    border-radius: 4px;
+    margin-top: 5px;
+    width: 100%;
+  }
+
+  .custom-dropdown-list a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    padding: 8px;
+    background-color: transparent;
+  }
+
+  .custom-dropdown-list a:hover {
+    background-color: #f6a403;
+    color: #20242c;
+  }
+
+  .custom-dropdown-list a div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .custom-dropdown-list a img {
+    width: 24px;
+    height: 16px;
+  }
+
+  /* Mobile styling */
+@media (max-width: 768px) {
+  #dropdown-btn-text {
+    display: none;
+  }
+
+  .custom-dropdown-button {
+    padding: 8px;
+    justify-content: center;
+  }
+
+  .custom-dropdown-list {
+    width: auto;
+    text-align: center;
+    left: auto;
+    right: 0;
+    transform: translateX(-20%);
+  }
+
+  .custom-dropdown-list a {
+    padding: 6px;
+  }
+
+  .custom-dropdown-list a div {
+    justify-content: center;
+  }
+
+  .custom-dropdown-list a img {
+    display: inline-block;
+    margin-right: 8px;
+  }
+}
+
+</style>
+
+<div class="custom-dropdown mt-3">
+  <div class="custom-dropdown-button" onclick="toggleDropdown()">
+    <img id="dropdown-btn-img" src="https://flagcdn.com/fr.svg" alt="Flag" />
+    <span id="dropdown-btn-text">French</span>
+  </div>
+  <div class="custom-dropdown-list" id="dropdown-list">
+    <a href="aide/Chateau de Versailles.html" onclick="updateDropdown('https://flagcdn.com/fr.svg', 'French')">
+      <div><img src="https://flagcdn.com/fr.svg" alt="FR" /> French</div>
+    </a>
+    <a href="aide/Saudi Arabia.html" onclick="updateDropdown('https://flagcdn.com/sa.svg', 'Saudi Arabia')">
+      <div><img src="https://flagcdn.com/sa.svg" alt="SA" /> Saudi Arabia</div>
+    </a>
+    <a href="aide/China.html" onclick="updateDropdown('https://flagcdn.com/cn.svg', 'China')">
+      <div><img src="https://flagcdn.com/cn.svg" alt="CN" /> China</div>
+    </a>
+    <a href="aide/Netherlands.html" onclick="updateDropdown('https://flagcdn.com/nl.svg', 'Netherlands')">
+      <div><img src="https://flagcdn.com/nl.svg" alt="NL" /> Netherlands</div>
+    </a>
+    <a href="aide/United Kingdom.html" onclick="updateDropdown('https://flagcdn.com/gb.svg', 'United Kingdom')">
+      <div><img src="https://flagcdn.com/gb.svg" alt="UK" /> United Kingdom</div>
+    </a>
+    <a href="aide/Germany.html" onclick="updateDropdown('https://flagcdn.com/de.svg', 'Germany')">
+      <div><img src="https://flagcdn.com/de.svg" alt="DE" /> Germany</div>
+    </a>
+    <a href="aide/Italy.html" onclick="updateDropdown('https://flagcdn.com/it.svg', 'Italy')">
+      <div><img src="https://flagcdn.com/it.svg" alt="IT" /> Italy</div>
+    </a>
+    <a href="aide/Portugal.html" onclick="updateDropdown('https://flagcdn.com/pt.svg', 'Portugal')">
+      <div><img src="https://flagcdn.com/pt.svg" alt="PT" /> Portugal</div>
+    </a>
+    <a href="aide/Spain.html" onclick="updateDropdown('https://flagcdn.com/es.svg', 'Spain')">
+      <div><img src="https://flagcdn.com/es.svg" alt="ES" /> Spain</div>
+    </a>
+  </div>
+</div>
+
+<script>
+  function toggleDropdown() {
+    const list = document.getElementById("dropdown-list");
+    list.style.display = list.style.display === "block" ? "none" : "block";
+  }
+
+  function updateDropdown(flagSrc, language) {
+    document.getElementById("dropdown-btn-img").src = flagSrc;
+    document.getElementById("dropdown-btn-text").textContent = language;
+    toggleDropdown();
+  }
+
+  // Close dropdown if clicked outside
+  document.addEventListener("click", function(event) {
+    const dropdown = document.querySelector(".custom-dropdown");
+    if (!dropdown.contains(event.target)) {
+      document.getElementById("dropdown-list").style.display = "none";
+    }
+  });
+</script>
+
+
+
+
+
+
+
+<a 
+  onclick="return gtag_report_conversion('tel:+33184807963');" 
+  href="tel:+33184807963" 
+  class="btn-number" 
+  style="margin-top: 10px; display: inline-block; padding: 6px 2px;">
+  01 84 80 79 63
+</a>
+
+
+
+
         <button class="navbar-toggler" type="button" aria-label="toggle-nav" onclick="toggleNav()">
           <i class="fas fa-bars"></i>
         </button>
@@ -305,7 +570,7 @@
     <div class="row mb-2">
       <div class="col-md">
         <div class="ftco-footer-widget mb-2">
-          <img class="logo-footer mb-4" height="54" src="../assets/images/R%c3%a9servation-taxi-Paris.webp" alt="taxi g7 service" loading="lazy">
+          <img class="logo-footer mb-4" height="54" src="../assets/images/TAXI.png" alt="taxi g7 service" loading="lazy">
           <p>Faites confiance à notre vaste réseau de chauffeurs affiliés, qui compte plus d'une centaine de professionnels.</p>
           <div class="block-23 mb-3">
             <address>
