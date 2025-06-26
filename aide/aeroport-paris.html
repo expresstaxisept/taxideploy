@@ -28,6 +28,17 @@
 <link rel="stylesheet" href="../assets/css/flaticon.css">
 <link rel="stylesheet" href="../assets/css/icomoon.css">
 <link rel="stylesheet" href="../assets/css/style.css">
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+eP/qOiCkXTG8DLZ0JzCgvK3lFuM7K7H/VnE6uMns=" crossorigin="" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1jKzdJzI33FqGpIyzSn1l8w9f3tT2Qthl1JDN+Xo=" crossorigin=""></script>
+<style>
+  #map {
+    height: 500px;
+    width: 100%;
+  }
+</style>
 
 <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -447,19 +458,27 @@
                 // Création de la carte
                 var map = L.map('map');
 
-                L.tileLayer('../../%7bs%7d.basemaps.cartocdn.com/rastertiles/voyager/%7bz%7d/%7bx%7d/%7by%7d%7br%7d.png', {
+                  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                   subdomains: 'abcd',
                   maxZoom: 20
                 }).addTo(map);
 
-                // Création d'une icône personnalisée à partir d'un fichier SVG
-                var myIcon = L.icon({
-                  iconUrl: '../assets/images/marker-airport.svg', // Chemin vers le fichier SVG
-                  iconSize: [44, 44], // Taille de l'icône
-                  iconAnchor: [15, 30], // Point d'ancrage de l'icône
-                  popupAnchor: [5, -19] // Point d'ancrage du popup
-                });
+var myIcon = L.icon({
+  iconUrl: "data:image/svg+xml;base64," + btoa(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 512 512">
+      <circle cx="256" cy="256" r="256" fill="#f6a403"/>
+      <path d="M469.3 278.6L278.6 469.3c-11.7 11.7-30.7 11.7-42.4 0L42.7 275.8c-11.7-11.7-11.7-30.7 0-42.4l190.7-190.7c11.7-11.7 30.7-11.7 42.4 0l190.7 190.7c11.7 11.7 11.7 30.7 0 42.4zM256 64l-16 144H112l-16 48h144l-16 144 32 16 32-16-16-144h144l-16-48H272L256 64z" fill="black"/>
+    </svg>
+  `),
+  iconSize: [44, 44],
+  iconAnchor: [22, 44],
+  popupAnchor: [0, -44]
+});
+
+
+
+
 
                 // Création d'un objet LatLngBounds pour stocker les coordonnées de tous les marqueurs
                 var bounds = new L.LatLngBounds();
@@ -780,8 +799,11 @@ a.booking-btn-outline {
           
           <div class="sidebar-box widget-services-cta ftco-animate">
     <div class="categories">
-        <h3 class="">Besoin d'un Taxi ?</h3>
-        <p>Nos taxis assurent un service 24h/24 avec suivi en direct, tarifs fixes et options personnalisables (sièges enfants, vans, animaux, bagages).</p>
+       <h3 style="color: #f6a403;">Besoin d'un Taxi ?</h3>
+
+<p style="color: white;">
+  Nos taxis assurent un service 24h/24 avec suivi en direct, tarifs fixes et options personnalisables (sièges enfants, vans, animaux, bagages).
+</p>
         <a href="../offres-et-services.html" class="cta-btn" title="En savoir plus sur les serivces Taxi7">En savoir plus </a>
     </div>
 </div>
