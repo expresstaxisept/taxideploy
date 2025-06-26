@@ -1,0 +1,31 @@
+# Allow all well-behaved bots full access
+User-agent: *
+Disallow:
+
+# Block some known aggressive or unwanted bots
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+# Sitemap location for Google and others
+Sitemap: https://taxi7express.com/sitemap.xml
