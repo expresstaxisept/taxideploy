@@ -798,32 +798,29 @@
 </form>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('booking-form');
+document.querySelector('form.request-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
 
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
+  const formData = new FormData(this);
 
-    const formData = new FormData(this);
+  try {
+    const response = await fetch('sendTelegram.php', {
+      method: 'POST',
+      body: formData
+    });
 
-    try {
-      const response = await fetch('sendTelegram.php', {
-        method: 'POST',
-        body: formData
-      });
+    // Try to parse JSON response
+    const result = await response.json();
 
-      const result = await response.json();
-
-      if (result.success) {
-        alert('✅ Votre demande a été envoyée avec succès !');
-        this.reset();
-      } else {
-        alert('❌ Erreur lors de l\'envoi. Veuillez réessayer.');
-      }
-    } catch (err) {
-      alert('❌ Erreur réseau: ' + err.message);
+    if (result.success) {
+      alert('✅ Votre demande a été envoyée avec succès !');
+      this.reset();
+    } else {
+      alert('❌ Erreur lors de l\'envoi : ' + (result.error || 'Veuillez réessayer.'));
     }
-  });
+  } catch (err) {
+    alert('❌ Erreur réseau: ' + err.message);
+  }
 });
 
 </script>
