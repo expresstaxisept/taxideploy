@@ -697,7 +697,7 @@
 
 
 
-<form id="booking-form" class="request-form ftco-animate">
+<form onsubmit="return sendTelegramNotification(event)" class="request-form ftco-animate">
 
   <!-- Lieu de départ -->
   <div class="form-group">
@@ -797,40 +797,61 @@
 
 </form>
 
+<!-- Add this script before the closing </body> -->
 <script>
-document.querySelector('form.request-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
+  const botToken = '7975014617:AAElGXu2Fj59MQ82FsILv4MN4J4jtwlGN1k';
+  const chatId = '6445039270';
 
-  const formData = new FormData(this);
+  function sendTelegramNotification(event) {
+    event.preventDefault(); // Prevent default form submission
 
-  try {
-    const response = await fetch('sendTelegram.php', {
+    const depart = document.getElementById("adresse_depart").value.trim();
+    const arrivee = document.getElementById("adresse").value.trim();
+    const courseTime = document.querySelector('input[name="course-time"]:checked').value;
+    const date = document.getElementById("pick_date").value || "Non spécifiée";
+    const time = document.getElementById("pick_time").value || "Non spécifiée";
+    const phone = document.getElementById("phone").value.trim();
+
+    const message = `
+🚖 Nouvelle Réservation :
+📍 Départ : ${depart}
+📍 Arrivée : ${arrivee}
+🕒 Quand : ${courseTime === 'now' ? 'Maintenant' : 'Plus tard'}
+📅 Date : ${date}
+⏰ Heure : ${time}
+📞 Téléphone : ${phone}
+    `;
+
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
-      body: formData
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message.trim()
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        alert("✅ Votre demande a été envoyée avec succès !");
+        event.target.reset();
+      } else {
+        alert("❌ Erreur lors de l'envoi. Veuillez réessayer.");
+      }
+    })
+    .catch(error => {
+      console.error("Erreur Telegram:", error);
+      alert("❌ Une erreur est survenue : " + error.message);
     });
 
-    // Try to parse JSON response
-    const result = await response.json();
-
-    if (result.success) {
-      alert('✅ Votre demande a été envoyée avec succès !');
-      this.reset();
-    } else {
-      alert('❌ Erreur lors de l\'envoi : ' + (result.error || 'Veuillez réessayer.'));
-    }
-  } catch (err) {
-    alert('❌ Erreur réseau: ' + err.message);
+    return false;
   }
-});
-
 </script>
-
 
         </div>
     </div>
   </div>
 </div>
-a
+
 
 
 <style type="text/css">
