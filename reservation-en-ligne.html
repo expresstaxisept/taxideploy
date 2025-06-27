@@ -697,7 +697,7 @@
 
 
 
-<form onsubmit="return sendTelegramNotification(event)" class="request-form ftco-animate">
+<form id="booking-form" class="request-form ftco-animate">
 
   <!-- Lieu de départ -->
   <div class="form-group">
@@ -797,36 +797,39 @@
 
 </form>
 
-<!-- Add this script before the closing </body> -->
-
 <script>
-  document.getElementById('booking-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('booking-form');
 
-    const formData = new FormData(this);
-    const data = {};
-    formData.forEach((value, key) => { data[key] = value; });
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
 
-    try {
-      const response = await fetch('sendTelegram.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-      });
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => { data[key] = value; });
 
-      const result = await response.json();
+      try {
+        const response = await fetch('sendTelegram.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
 
-      if (result.success) {
-        alert('✅ Votre demande a été envoyée avec succès !');
-        this.reset();
-      } else {
-        alert('❌ Erreur lors de l\'envoi. Veuillez réessayer.');
+        const result = await response.json();
+
+        if (result.success) {
+          alert('✅ Votre demande a été envoyée avec succès !');
+          this.reset();
+        } else {
+          alert('❌ Erreur lors de l\'envoi. Veuillez réessayer.');
+        }
+      } catch (err) {
+        alert('❌ Erreur réseau: ' + err.message);
       }
-    } catch (err) {
-      alert('❌ Erreur réseau: ' + err.message);
-    }
+    });
   });
 </script>
+
 
         </div>
     </div>
