@@ -760,7 +760,7 @@
     <div class="input-group">
       <div class="input-group-prepend">
         <div class="input-group-text">
-          <img src="assets/images/fr-flag.svg" alt="frensh-flag" height="16">
+          <img src="assets/images/fr-flag.svg" alt="french-flag" height="16">
         </div>
       </div>
       <input 
@@ -777,11 +777,7 @@
     <small class="text-danger" id="phoneError"></small>
   </div>
 
-  <!-- Google reCaptcha -->
-  <div class="form-group">
-    <div class="g-recaptcha" data-sitekey="6LfZ7BIqAAAAAA1eDOnJzxaWG09_pSz5JmHC6smu" style="width:50px !important;"></div>
-    <div id="captchaError" style="color: #1f2229; display: none;"></div>
-  </div>
+
 
   <!-- Réserver -->
   <div class="form-group">
@@ -797,13 +793,12 @@
 
 </form>
 
-<!-- Add this script before the closing </body> -->
 <script>
-  const botToken = '7975014617:AAElGXu2Fj59MQ82FsILv4MN4J4jtwlGN1k';
-  const chatId = '6445039270';
+  // Use your actual Worker route URL here:
+  const workerUrl = 'https://taxi7express.com/api/send';
 
   function sendTelegramNotification(event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
     const depart = document.getElementById("adresse_depart").value.trim();
     const arrivee = document.getElementById("adresse").value.trim();
@@ -812,23 +807,19 @@
     const time = document.getElementById("pick_time").value || "Non spécifiée";
     const phone = document.getElementById("phone").value.trim();
 
-    const message = `
-🚖 Nouvelle Réservation :
-📍 Départ : ${depart}
-📍 Arrivée : ${arrivee}
-🕒 Quand : ${courseTime === 'now' ? 'Maintenant' : 'Plus tard'}
-📅 Date : ${date}
-⏰ Heure : ${time}
-📞 Téléphone : ${phone}
-    `;
+    const data = {
+      adresse_depart: depart,
+      adresse: arrivee,
+      courseTime: courseTime,
+      pick_date: date,
+      pick_time: time,
+      phone: phone
+    };
 
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    fetch(workerUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message.trim()
-      })
+      body: JSON.stringify(data)
     })
     .then(response => {
       if (response.ok) {
@@ -839,13 +830,15 @@
       }
     })
     .catch(error => {
-      console.error("Erreur Telegram:", error);
+      console.error("Erreur Worker:", error);
       alert("❌ Une erreur est survenue : " + error.message);
     });
 
     return false;
   }
 </script>
+
+
 
         </div>
     </div>
