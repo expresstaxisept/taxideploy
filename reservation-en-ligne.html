@@ -798,53 +798,34 @@
 </form>
 
 <!-- Add this script before the closing </body> -->
+
 <script>
-  const botToken = '7975014617:AAElGXu2Fj59MQ82FsILv4MN4J4jtwlGN1k';
-  const chatId = '6445039270';
+  document.getElementById('booking-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-  function sendTelegramNotification(event) {
-    event.preventDefault(); // Prevent default form submission
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => { data[key] = value; });
 
-    const depart = document.getElementById("adresse_depart").value.trim();
-    const arrivee = document.getElementById("adresse").value.trim();
-    const courseTime = document.querySelector('input[name="course-time"]:checked').value;
-    const date = document.getElementById("pick_date").value || "Non spécifiée";
-    const time = document.getElementById("pick_time").value || "Non spécifiée";
-    const phone = document.getElementById("phone").value.trim();
+    try {
+      const response = await fetch('sendTelegram.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
 
-    const message = `
-🚖 Nouvelle Réservation :
-📍 Départ : ${depart}
-📍 Arrivée : ${arrivee}
-🕒 Quand : ${courseTime === 'now' ? 'Maintenant' : 'Plus tard'}
-📅 Date : ${date}
-⏰ Heure : ${time}
-📞 Téléphone : ${phone}
-    `;
+      const result = await response.json();
 
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message.trim()
-      })
-    })
-    .then(response => {
-      if (response.ok) {
-        alert("✅ Votre demande a été envoyée avec succès !");
-        event.target.reset();
+      if (result.success) {
+        alert('✅ Votre demande a été envoyée avec succès !');
+        this.reset();
       } else {
-        alert("❌ Erreur lors de l'envoi. Veuillez réessayer.");
+        alert('❌ Erreur lors de l\'envoi. Veuillez réessayer.');
       }
-    })
-    .catch(error => {
-      console.error("Erreur Telegram:", error);
-      alert("❌ Une erreur est survenue : " + error.message);
-    });
-
-    return false;
-  }
+    } catch (err) {
+      alert('❌ Erreur réseau: ' + err.message);
+    }
+  });
 </script>
 
         </div>
