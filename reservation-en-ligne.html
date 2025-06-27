@@ -798,36 +798,34 @@
 </form>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('booking-form');
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('booking-form');
 
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-      const formData = new FormData(this);
-      const data = {};
-      formData.forEach((value, key) => { data[key] = value; });
+    const formData = new FormData(this);
 
-      try {
-        const response = await fetch('sendTelegram.php', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(data)
-        });
+    try {
+      const response = await fetch('sendTelegram.php', {
+        method: 'POST',
+        body: formData
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (result.success) {
-          alert('✅ Votre demande a été envoyée avec succès !');
-          this.reset();
-        } else {
-          alert('❌ Erreur lors de l\'envoi. Veuillez réessayer.');
-        }
-      } catch (err) {
-        alert('❌ Erreur réseau: ' + err.message);
+      if (result.success) {
+        alert('✅ Votre demande a été envoyée avec succès !');
+        this.reset();
+      } else {
+        alert('❌ Erreur lors de l\'envoi. Veuillez réessayer.');
       }
-    });
+    } catch (err) {
+      alert('❌ Erreur réseau: ' + err.message);
+    }
   });
+});
+
 </script>
 
 
@@ -835,7 +833,7 @@
     </div>
   </div>
 </div>
-
+a
 
 
 <style type="text/css">
