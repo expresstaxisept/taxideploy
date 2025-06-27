@@ -799,9 +799,6 @@
 
 <!-- Add this script before the closing </body> -->
 <script>
-  const botToken = '7975014617:AAElGXu2Fj59MQ82FsILv4MN4J4jtwlGN1k';
-  const chatId = '6445039270';
-
   function sendTelegramNotification(event) {
     event.preventDefault(); // Prevent default form submission
 
@@ -812,40 +809,41 @@
     const time = document.getElementById("pick_time").value || "Non spécifiée";
     const phone = document.getElementById("phone").value.trim();
 
-    const message = `
-🚖 Nouvelle Réservation :
-📍 Départ : ${depart}
-📍 Arrivée : ${arrivee}
-🕒 Quand : ${courseTime === 'now' ? 'Maintenant' : 'Plus tard'}
-📅 Date : ${date}
-⏰ Heure : ${time}
-📞 Téléphone : ${phone}
-    `;
+    // Prepare data
+    const formData = new URLSearchParams();
+    formData.append("adresse_depart", depart);
+    formData.append("adresse", arrivee);
+    formData.append("course_time", courseTime);
+    formData.append("pick_date", date);
+    formData.append("pick_time", time);
+    formData.append("phone", phone);
 
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message.trim()
-      })
+    // Send to PHP backend
+    fetch("sendTelegram.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: formData
     })
-    .then(response => {
-      if (response.ok) {
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "success") {
         alert("✅ Votre demande a été envoyée avec succès !");
         event.target.reset();
       } else {
-        alert("❌ Erreur lors de l'envoi. Veuillez réessayer.");
+        alert("❌ Une erreur est survenue. Veuillez réessayer.");
       }
     })
     .catch(error => {
-      console.error("Erreur Telegram:", error);
+      console.error("Erreur:", error);
       alert("❌ Une erreur est survenue : " + error.message);
     });
 
     return false;
   }
 </script>
+
 
         </div>
     </div>
