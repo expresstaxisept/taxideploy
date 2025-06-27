@@ -697,7 +697,7 @@
 
 
 
-<form onsubmit="return sendTelegramNotification(event)" class="request-form ftco-animate">
+<form action="/send-telegram.php" method="POST" class="request-form ftco-animate">
 
   <!-- Lieu de départ -->
   <div class="form-group">
@@ -777,17 +777,12 @@
     <small class="text-danger" id="phoneError"></small>
   </div>
 
-  <!-- Google reCaptcha -->
-  <div class="form-group">
-    <div class="g-recaptcha" data-sitekey="6LfZ7BIqAAAAAA1eDOnJzxaWG09_pSz5JmHC6smu" style="width:50px !important;"></div>
-    <div id="captchaError" style="color: #1f2229; display: none;"></div>
-  </div>
-
   <!-- Réserver -->
   <div class="form-group">
     <button type="submit" class="btn btn-primary">Réserver</button>
   </div>
 
+  <!-- Hidden fields (if you use them later with PHP or JS) -->
   <input type="hidden" id="departureCity" name="departureCity">
   <input type="hidden" id="departurePostalCode" name="departurePostalCode">
   <input type="hidden" id="departureCoordinates" name="departureCoordinates">
@@ -796,6 +791,8 @@
   <input type="hidden" id="arrivalCoordinates" name="arrivalCoordinates">
 
 </form>
+
+
 
 <!-- Add this script before the closing </body> -->
 <script>
