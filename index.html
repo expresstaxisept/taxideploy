@@ -409,11 +409,14 @@
 
 
 <style>
-  /* Hide Google Translate notification banner */
-  .goog-te-banner-frame.skiptranslate {
+  /* Hide Google Translate notification banner iframe and any skiptranslate div */
+  .goog-te-banner-frame,
+  .skiptranslate {
     display: none !important;
   }
-  body {
+
+  /* Reset body and html top and position to avoid page shifting */
+  body, html {
     top: 0 !important;
     position: static !important;
   }
@@ -455,10 +458,29 @@
       includedLanguages: 'ar,zh-CN,nl,en,de,it,pt,es', // Arabic, Chinese, Dutch, English, German, Italian, Portuguese, Spanish
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
+
+    // Function to forcibly hide the Google Translate top banner
+    function removeGoogleTranslateBanner() {
+      const bannerFrame = document.querySelector('.goog-te-banner-frame');
+      if (bannerFrame) {
+        bannerFrame.style.display = 'none';
+      }
+      const skipTranslateDiv = document.querySelector('.skiptranslate');
+      if (skipTranslateDiv) {
+        skipTranslateDiv.style.display = 'none';
+      }
+      document.body.style.top = '0px';
+      document.body.style.position = 'static';
+    }
+
+    // Remove banner immediately and keep removing it every 2 seconds in case Google tries to re-add it
+    removeGoogleTranslateBanner();
+    setInterval(removeGoogleTranslateBanner, 2000);
   }
 </script>
 
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 
 
 
