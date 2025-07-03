@@ -384,7 +384,15 @@
 
   function translateWithFlag(langCode, flagSrc, langName) {
     updateDropdown(flagSrc, langName);
-    translateFromOriginal('fr', langCode);
+
+    if (langCode === 'fr') {
+      // Restore original French text directly without API call
+      originalTextNodes.forEach(item => {
+        item.node.nodeValue = item.originalText;
+      });
+    } else {
+      translateFromOriginal('fr', langCode);
+    }
   }
 
   document.addEventListener("click", function(event) {
@@ -457,6 +465,7 @@
     storeOriginalText();
   });
 </script>
+
 
 
 
