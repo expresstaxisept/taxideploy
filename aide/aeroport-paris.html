@@ -219,7 +219,7 @@
   }
 
   .custom-dropdown-list {
-    display: none;
+    display: none; /* Always hidden by default */
     position: absolute;
     z-index: 1000;
     background-color: #20242c;
@@ -254,38 +254,37 @@
   }
 
   /* Mobile styling */
-@media (max-width: 768px) {
-  #dropdown-btn-text {
-    display: none;
-  }
+  @media (max-width: 768px) {
+    #dropdown-btn-text {
+      display: none;
+    }
 
-  .custom-dropdown-button {
-    padding: 8px;
-    justify-content: center;
-  }
+    .custom-dropdown-button {
+      padding: 8px;
+      justify-content: center;
+    }
 
-  .custom-dropdown-list {
-    width: auto;
-    text-align: center;
-    left: auto;
-    right: 0;
-    transform: translateX(-20%);
-  }
+    .custom-dropdown-list {
+      width: auto;
+      text-align: center;
+      left: auto;
+      right: 0;
+      transform: translateX(-20%);
+    }
 
-  .custom-dropdown-list a {
-    padding: 6px;
-  }
+    .custom-dropdown-list a {
+      padding: 6px;
+    }
 
-  .custom-dropdown-list a div {
-    justify-content: center;
-  }
+    .custom-dropdown-list a div {
+      justify-content: center;
+    }
 
-  .custom-dropdown-list a img {
-    display: inline-block;
-    margin-right: 8px;
+    .custom-dropdown-list a img {
+      display: inline-block;
+      margin-right: 8px;
+    }
   }
-}
-
 </style>
 
 <!-- Language dropdown -->
@@ -307,8 +306,6 @@
   </div>
 </div>
 
-<!-- Your existing dropdown HTML stays the same -->
-
 <script>
   const apiKey = 'AIzaSyC9OFOyFaELiBWcK0uCVfEqYChN-Al_87k';
   let originalTextNodes = [];
@@ -318,14 +315,16 @@
     list.style.display = list.style.display === "block" ? "none" : "block";
   }
 
-  function updateDropdown(flagSrc, language) {
+  // Update dropdown UI without toggling visibility
+  function setDropdown(flagSrc, language) {
     document.getElementById("dropdown-btn-img").src = flagSrc;
     document.getElementById("dropdown-btn-text").textContent = language;
-    toggleDropdown();
   }
 
+  // Called when user selects a language
   function translateWithFlag(langCode, flagSrc, langName) {
-    updateDropdown(flagSrc, langName);
+    setDropdown(flagSrc, langName);
+    toggleDropdown(); // close dropdown after selection
 
     // Save selected language in localStorage
     localStorage.setItem('selectedLanguage', langCode);
@@ -347,6 +346,7 @@
     }
   });
 
+  // Utility: get all text nodes under element except certain tags
   function getTextNodesUnder(el){
     let n, a = [], walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
     while(n = walk.nextNode()) {
@@ -358,6 +358,7 @@
     return a;
   }
 
+  // Store original text nodes and text on page load
   function storeOriginalText() {
     const nodes = getTextNodesUnder(document.body);
     originalTextNodes = nodes.map(n => ({
@@ -366,13 +367,13 @@
     }));
   }
 
+  // Translate text nodes from original language to target language in batches
   async function translateFromOriginal(sourceLang, targetLang) {
     if (!originalTextNodes.length) storeOriginalText();
 
-    const texts = originalTextNodes.map(item => item.originalText);
     const batchSize = 100;
 
-    for (let i = 0; i < texts.length; i += batchSize) {
+    for (let i = 0; i < originalTextNodes.length; i += batchSize) {
       const batch = originalTextNodes.slice(i, i + batchSize);
       const batchTexts = batch.map(item => item.originalText);
 
@@ -405,13 +406,15 @@
     }
   }
 
-  // On page load: store original text, then apply saved language if any
+  // On page load: store original text, then apply saved language if any & ensure dropdown closed
   document.addEventListener('DOMContentLoaded', () => {
     storeOriginalText();
 
+    // Always hide dropdown on page load
+    document.getElementById('dropdown-list').style.display = 'none';
+
     const savedLang = localStorage.getItem('selectedLanguage') || 'fr';
 
-    // Map language codes to flag URLs and names for updating dropdown UI
     const langMap = {
       fr: {flag: 'https://flagcdn.com/fr.svg', name: 'French'},
       ar: {flag: 'https://flagcdn.com/sa.svg', name: 'Arabic'},
@@ -425,7 +428,8 @@
     };
 
     if (langMap[savedLang]) {
-      updateDropdown(langMap[savedLang].flag, langMap[savedLang].name);
+      setDropdown(langMap[savedLang].flag, langMap[savedLang].name);
+
       if (savedLang === 'fr') {
         originalTextNodes.forEach(item => {
           item.node.nodeValue = item.originalText;
@@ -436,6 +440,7 @@
     }
   });
 </script>
+
 
 
 
