@@ -367,6 +367,8 @@
   </div>
 </div>
 
+<!-- Your existing dropdown HTML stays the same -->
+
 <script>
   const apiKey = 'AIzaSyC9OFOyFaELiBWcK0uCVfEqYChN-Al_87k';
   let originalTextNodes = [];
@@ -384,6 +386,9 @@
 
   function translateWithFlag(langCode, flagSrc, langName) {
     updateDropdown(flagSrc, langName);
+
+    // Save selected language in localStorage
+    localStorage.setItem('selectedLanguage', langCode);
 
     if (langCode === 'fr') {
       // Restore original French text directly without API call
@@ -460,11 +465,38 @@
     }
   }
 
-  // Store original text once on first load
+  // On page load: store original text, then apply saved language if any
   document.addEventListener('DOMContentLoaded', () => {
     storeOriginalText();
+
+    const savedLang = localStorage.getItem('selectedLanguage') || 'fr';
+
+    // Map language codes to flag URLs and names for updating dropdown UI
+    const langMap = {
+      fr: {flag: 'https://flagcdn.com/fr.svg', name: 'French'},
+      ar: {flag: 'https://flagcdn.com/sa.svg', name: 'Arabic'},
+      'zh-CN': {flag: 'https://flagcdn.com/cn.svg', name: 'Chinese'},
+      nl: {flag: 'https://flagcdn.com/nl.svg', name: 'Néerlandais'},
+      en: {flag: 'https://flagcdn.com/gb.svg', name: 'English'},
+      de: {flag: 'https://flagcdn.com/de.svg', name: 'German'},
+      it: {flag: 'https://flagcdn.com/it.svg', name: 'Italian'},
+      pt: {flag: 'https://flagcdn.com/pt.svg', name: 'Portuguese'},
+      es: {flag: 'https://flagcdn.com/es.svg', name: 'Spanish'}
+    };
+
+    if (langMap[savedLang]) {
+      updateDropdown(langMap[savedLang].flag, langMap[savedLang].name);
+      if (savedLang === 'fr') {
+        originalTextNodes.forEach(item => {
+          item.node.nodeValue = item.originalText;
+        });
+      } else {
+        translateFromOriginal('fr', savedLang);
+      }
+    }
   });
 </script>
+
 
 
 
