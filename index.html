@@ -408,84 +408,18 @@
 
 
 
-<style>
-  .goog-te-banner-frame {
-    position: fixed !important;
-    top: -9999px !important;
-    left: -9999px !important;
-    width: 0 !important;
-    height: 0 !important;
-    border: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    z-index: -9999 !important;
-  }
-
-  body, html {
-    top: 0 !important;
-    position: static !important;
-  }
-
-  #google_translate_element {
-    display: inline-block;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    background: #fff;
-    color: #333;
-  }
-
-  .goog-logo-link,
-  .goog-te-gadget-icon {
-    display: none !important;
-  }
-
-  .goog-te-combo {
-    border: none !important;
-    background: transparent !important;
-    font-size: 16px !important;
-    color: #333 !important;
-    cursor: pointer !important;
-  }
-</style>
-
-<div id="google_translate_element"></div>
-
+<div id="MicrosoftTranslatorWidget"></div>
+<script src="https://www.microsofttranslator.com/Ajax/V3/WidgetV3.js"></script>
 <script>
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'fr',
-      includedLanguages: 'ar,zh-CN,nl,en,de,it,pt,es',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-    }, 'google_translate_element');
+  setTimeout(function(){
+    Microsoft.Translator.Widget.Translate('fr', '', onProgress, onError, onComplete, onRestoreOriginal);
+  }, 1000);
 
-    function removeGoogleTranslateBanner() {
-      const bannerFrame = document.querySelector('.goog-te-banner-frame');
-      if (bannerFrame) {
-        bannerFrame.style.position = 'fixed';
-        bannerFrame.style.top = '-9999px';
-        bannerFrame.style.left = '-9999px';
-        bannerFrame.style.width = '0';
-        bannerFrame.style.height = '0';
-        bannerFrame.style.border = 'none';
-        bannerFrame.style.margin = '0';
-        bannerFrame.style.padding = '0';
-        bannerFrame.style.overflow = 'hidden';
-        bannerFrame.style.zIndex = '-9999';
-      }
-      document.body.style.top = '0px';
-      document.body.style.position = 'static';
-    }
-
-    removeGoogleTranslateBanner();
-    setInterval(removeGoogleTranslateBanner, 2000);
-  }
+  function onProgress(value) { console.log('Translating: ' + value + '%'); }
+  function onError(error) { console.log('Error: ' + error); }
+  function onComplete() { console.log('Translation complete'); }
+  function onRestoreOriginal() { console.log('Restored original'); }
 </script>
-
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 
 
