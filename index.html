@@ -409,19 +409,24 @@
 
 
 <style>
-  /* Hide Google Translate notification banner iframe and any skiptranslate div */
-  .goog-te-banner-frame,
-  .skiptranslate {
-    display: none !important;
+  .goog-te-banner-frame {
+    position: fixed !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    z-index: -9999 !important;
   }
 
-  /* Reset body and html top and position to avoid page shifting */
   body, html {
     top: 0 !important;
     position: static !important;
   }
 
-  /* Style the translate widget container */
   #google_translate_element {
     display: inline-block;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -433,13 +438,11 @@
     color: #333;
   }
 
-  /* Hide default Google logo and text */
   .goog-logo-link,
   .goog-te-gadget-icon {
     display: none !important;
   }
 
-  /* Style the select dropdown inside the widget */
   .goog-te-combo {
     border: none !important;
     background: transparent !important;
@@ -451,29 +454,32 @@
 
 <div id="google_translate_element"></div>
 
-<script type="text/javascript">
+<script>
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
-      pageLanguage: 'fr', // Original language: French
-      includedLanguages: 'ar,zh-CN,nl,en,de,it,pt,es', // Arabic, Chinese, Dutch, English, German, Italian, Portuguese, Spanish
+      pageLanguage: 'fr',
+      includedLanguages: 'ar,zh-CN,nl,en,de,it,pt,es',
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
 
-    // Function to forcibly hide the Google Translate top banner
     function removeGoogleTranslateBanner() {
       const bannerFrame = document.querySelector('.goog-te-banner-frame');
       if (bannerFrame) {
-        bannerFrame.style.display = 'none';
-      }
-      const skipTranslateDiv = document.querySelector('.skiptranslate');
-      if (skipTranslateDiv) {
-        skipTranslateDiv.style.display = 'none';
+        bannerFrame.style.position = 'fixed';
+        bannerFrame.style.top = '-9999px';
+        bannerFrame.style.left = '-9999px';
+        bannerFrame.style.width = '0';
+        bannerFrame.style.height = '0';
+        bannerFrame.style.border = 'none';
+        bannerFrame.style.margin = '0';
+        bannerFrame.style.padding = '0';
+        bannerFrame.style.overflow = 'hidden';
+        bannerFrame.style.zIndex = '-9999';
       }
       document.body.style.top = '0px';
       document.body.style.position = 'static';
     }
 
-    // Remove banner immediately and keep removing it every 2 seconds in case Google tries to re-add it
     removeGoogleTranslateBanner();
     setInterval(removeGoogleTranslateBanner, 2000);
   }
