@@ -1,26 +1,68 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Test Traduction</title>
+  <meta charset="UTF-8" />
+  <title>Google Translate API Demo with Language Selector</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; }
+    label, select, button { font-size: 16px; margin: 10px 0; }
+    button { padding: 8px 16px; cursor: pointer; }
+  </style>
 </head>
 <body>
-  <h1>Bienvenue sur notre site</h1>
-  <p>Nous offrons un service de chauffeur privé de luxe à Paris.</p>
+  <h1>Google Cloud Translation API Demo</h1>
 
-  <!-- Language Switch Dropdown -->
-  <div id="google_translate_element"></div>
+  <p><strong>Original text (French):</strong> <span id="original-text">Bonjour tout le monde</span></p>
 
-  <!-- Google Translate Script -->
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'fr',
-        includedLanguages: 'it,es',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
-    }
+  <label for="target-lang">Translate to:</label>
+  <select id="target-lang">
+    <option value="ar">Arabic</option>
+    <option value="zh-CN">Chinese</option>
+    <option value="nl">Néerlandais</option>
+    <option value="en" selected>English</option>
+    <option value="de">German</option>
+    <option value="it">Italian</option>
+    <option value="pt">Portuguese</option>
+    <option value="es">Spanish</option>
+  </select>
+
+  <br />
+
+  <button id="translate-btn">Translate</button>
+
+  <p><strong>Translated text:</strong> <span id="translated-text">[Click Translate]</span></p>
+
+  <script>
+    const apiKey = 'AIzaSyC9OFOyFaELiBWcK0uCVfEqYChN-Al_87k';
+
+    document.getElementById('translate-btn').addEventListener('click', () => {
+      const textToTranslate = document.getElementById('original-text').textContent;
+      const targetLang = document.getElementById('target-lang').value;
+
+      fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          q: textToTranslate,
+          source: 'fr',       // fixed source language: French
+          target: targetLang,
+          format: 'text'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data && data.data && data.data.translations && data.data.translations[0]) {
+          document.getElementById('translated-text').textContent = data.data.translations[0].translatedText;
+        } else {
+          document.getElementById('translated-text').textContent = 'Translation error.';
+          console.error('Translation response error:', data);
+        }
+      })
+      .catch(err => {
+        document.getElementById('translated-text').textContent = 'Error during translation.';
+        console.error('Fetch error:', err);
+      });
+    });
   </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
