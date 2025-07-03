@@ -408,19 +408,58 @@
 
 
 
+<style>
+  /* Hide Google Translate notification banner */
+  .goog-te-banner-frame.skiptranslate {
+    display: none !important;
+  }
+  body {
+    top: 0 !important;
+    position: static !important;
+  }
+
+  /* Style the translate widget container */
+  #google_translate_element {
+    display: inline-block;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background: #fff;
+    color: #333;
+  }
+
+  /* Hide default Google logo and text */
+  .goog-logo-link,
+  .goog-te-gadget-icon {
+    display: none !important;
+  }
+
+  /* Style the select dropdown inside the widget */
+  .goog-te-combo {
+    border: none !important;
+    background: transparent !important;
+    font-size: 16px !important;
+    color: #333 !important;
+    cursor: pointer !important;
+  }
+</style>
+
 <div id="google_translate_element"></div>
 
 <script type="text/javascript">
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
-      pageLanguage: 'fr', // Your original language is French
-      includedLanguages: 'it,es', // Target: Italian and Spanish
+      pageLanguage: 'fr', // Original language: French
+      includedLanguages: 'ar,zh-CN,nl,en,de,it,pt,es', // Arabic, Chinese, Dutch, English, German, Italian, Portuguese, Spanish
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE
     }, 'google_translate_element');
   }
 </script>
 
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 
 
 
